@@ -41,14 +41,14 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('sudo Build Docker Image') {
             steps {
                     sh 'sudo docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
             }
         }
 
         //  Optional: Push Docker image to a registry
-        stage('Push Docker Image') {
+        stage('sudo Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'docker-image-id',

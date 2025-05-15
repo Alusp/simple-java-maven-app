@@ -1,7 +1,7 @@
+FROM nginx:alpine
 
-FROM nginx:1.18.0
+COPY index.html /usr/share/nginx/html
 
-ADD index.html /app/
-ADD cicd.jpg /app/
+COPY cicd.jpg /usr/share/nginx/html
 
-EXPOSE 8080
+EXPOSE 80

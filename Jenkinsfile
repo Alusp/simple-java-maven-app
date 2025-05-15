@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         sonarqube_token = credentials('sonar-secret-id')
-        IMAGE_NAME = "molacon/simple-java-maven-app"
+        IMAGE_NAME = "molacon/simple-java-mav-app"
         IMAGE_TAG = "latest"
     }
     
@@ -36,7 +36,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar -Dsonar.projectKey=simple-java-maven-app -Dsonar.projectName="simple-java-maven-app"'
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=simple-java-mav-app -Dsonar.projectName="simple-java-mav-app"'
                 }
             }
         }

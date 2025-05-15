@@ -66,17 +66,21 @@ pipeline {
         stage('Deploy Docker Image') {
             steps {
                 sh '''
-                if sudo docker images --format "{{.Repository}}:{{.Tag}}" | grep -q "^${IMAGE_NAME}:${IMAGE_TAG}$"; then
-                echo "Image ${IMAGE_NAME}:${IMAGE_TAG} exists. Removing related containers and image..."
-                CONTAINERS=$(sudo docker ps -a -q --filter ancestor=${IMAGE_NAME}:${IMAGE_TAG})
-                if [ -n "$CONTAINERS" ]; then
-                    sudo docker rm -Rf $CONTAINERS
-                fi
-                sudo docker rmi -f ${IMAGE_NAME}:${IMAGE_TAG}
-                fi
-                echo "Running image..."
-                sudo docker run -d -p 8008:80 ${IMAGE_NAME}:${IMAGE_TAG}
-                                                                        '''
+                    PORT_IN_USE=$(sudo lsof -t -i:8008)
+                    if [ -n "$PORT_IN_USE" ]; then
+                    echo "Port 8008 in use, stopping process..."
+                    sudo kill -9 $PORT_IN_USE || true
+                    fi
+
+                    # Alternatively, remove docker containers using port 8008
+                    CONTAINER=$(sudo docker ps -q --filter "publish=8008")
+                    if [ -n "$CONTAINER" ]; then
+                    echo "Docker container using port 8008 found, stopping it..."
+                    sudo docker rm -f $CONTAINER
+                    fi
+
+                    sudo docker run -d -p 8008:80 ${IMAGE_NAME}:${IMAGE_TAG}
+                    '''
                    // sh 'sudo docker run -d -p 8008:80 ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }

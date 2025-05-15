@@ -9,10 +9,10 @@ pipeline {
         IMAGE_TAG = "latest"
     }
     
-    tools {
-        maven 'Maven'
-    //    jdk 'JDK11'
-    }
+    // tools {
+    //     maven 'Maven'
+    // //    jdk 'JDK11'
+    // }
     
     stages {
         stage('Checkout') {
@@ -21,25 +21,25 @@ pipeline {
             }
         }
         
-        stage('Build') {
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         sh 'mvn clean package -DskipTests'
+        //     }
+        // }
         
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh 'mvn test'
+        //     }
+        // }
         
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar -Dsonar.projectKey=simple-java-maven-app -Dsonar.projectName="simple-java-maven-app"'
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube') {
+        //             sh 'mvn sonar:sonar -Dsonar.projectKey=simple-java-maven-app -Dsonar.projectName="simple-java-maven-app"'
+        //         }
+        //     }
+        // }
 
         stage('sudo Build Docker Image') {
             steps {

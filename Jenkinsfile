@@ -65,7 +65,19 @@ pipeline {
 
         stage('Deploy Docker Image') {
             steps {
-                    sh 'sudo docker run --rm -d -p 8008:80 ${IMAGE_NAME}:${IMAGE_TAG}'
+                sh '''
+                if sudo docker images --format "{{.Repository}}:{{.Tag}}" | grep -q "^${IMAGE_NAME}:${IMAGE_TAG}$"; then
+                echo "Image ${IMAGE_NAME}:${IMAGE_TAG} exists. Removing related containers and image..."
+                CONTAINERS=$(sudo docker ps -a -q --filter ancestor=${IMAGE_NAME}:${IMAGE_TAG})
+                if [ -n "$CONTAINERS" ]; then
+                    sudo docker rm -f $CONTAINERS
+                fi
+                sudo docker rmi -f ${IMAGE_NAME}:${IMAGE_TAG}
+                fi
+                echo "Running image..."
+                sudo docker run -d -p 8008:80 ${IMAGE_NAME}:${IMAGE_TAG}
+                                                                        '''
+                   // sh 'sudo docker run -d -p 8008:80 ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
 

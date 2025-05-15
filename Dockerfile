@@ -1,5 +1,5 @@
 # FROM nginx:alpine
-FROM stable-alpine3.21-slim
+FROM nginx:stable-alpine3.21-slim
 
 COPY index.html /usr/share/nginx/html
 

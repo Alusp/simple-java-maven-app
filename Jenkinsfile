@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         sonarqube_token = credentials('sonar-secret-id')
-        IMAGE_NAME = "molacon/simple-chale-app"
+        IMAGE_NAME = "molacon/simple-chle-app"
         IMAGE_TAG = "latest"
     }
     
@@ -65,7 +65,7 @@ pipeline {
 
         stage('Deploy Docker Image') {
             steps {
-                    sh 'sudo docker run -d -p 8888:8080 ${IMAGE_NAME}:${IMAGE_TAG}'
+                    sh 'sudo docker run -d -p 8008:8080 ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
 

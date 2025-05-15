@@ -47,6 +47,58 @@ pipeline {
             }
         }
 
+                            stage('Trivy Security Scan') {
+
+                                        steps {
+
+                                            sh '''
+
+                                            sudo docker run --rm \
+
+                                            -v /var/run/docker.sock:/var/run/docker.sock \
+
+                                            -v $PWD:/root/reports \
+
+                                            aquasec/trivy image \
+
+                                            --format template \
+
+                                            --template "@/contrib/html.tpl" \
+
+                                            -o /root/reports/trivy-report.html \
+
+                                            ${IMAGE_NAME}:${IMAGE_TAG}
+
+                                            '''
+
+                                        }
+
+                                    }
+                                    stage('Publish Trivy Report') {
+
+                                        steps {
+
+                                            publishHTML(target: [
+
+                                            allowMissing: true,
+
+                                            alwaysLinkToLastBuild: false,
+
+                                            keepAll: true,
+
+                                            reportDir: '.',
+
+                                            reportFiles: 'trivy-report.html',
+
+                                            reportName: 'Trivy Security Report',
+
+                                            alwaysLinkToLastBuild: true
+
+                                            ])
+
+                                        }
+
+                                    }
         //  Optional: Push Docker image to a registry
         stage('sudo Push Docker Image') {
             steps {

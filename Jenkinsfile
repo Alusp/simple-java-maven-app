@@ -70,7 +70,7 @@ pipeline {
                 echo "Image ${IMAGE_NAME}:${IMAGE_TAG} exists. Removing related containers and image..."
                 CONTAINERS=$(sudo docker ps -a -q --filter ancestor=${IMAGE_NAME}:${IMAGE_TAG})
                 if [ -n "$CONTAINERS" ]; then
-                    sudo docker rm -f $CONTAINERS
+                    sudo docker rm -Rf $CONTAINERS
                 fi
                 sudo docker rmi -f ${IMAGE_NAME}:${IMAGE_TAG}
                 fi

@@ -1,4 +1,5 @@
-FROM nginx:alpine
+# FROM nginx:alpine
+FROM bitnami/nginx
 
 COPY index.html /usr/share/nginx/html
 

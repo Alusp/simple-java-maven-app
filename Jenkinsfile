@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         sonarqube_token = credentials('sonar-secret-id')
-        IMAGE_NAME = "molacon/simple-chal-app"
+        IMAGE_NAME = "molacon/s-call-app"
         IMAGE_TAG = "latest"
     }
     

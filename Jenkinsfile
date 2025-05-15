@@ -65,7 +65,7 @@ pipeline {
 
         stage('Deploy Docker Image') {
             steps {
-                    sh 'sudo docker run -p 8888:8080 ${IMAGE_NAME}:${IMAGE_TAG}'
+                    sh 'sudo docker run -d -p 8888:8080 ${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
 
